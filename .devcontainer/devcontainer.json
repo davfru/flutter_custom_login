@@ -4,8 +4,9 @@
     "dockerfile": "Dockerfile"
   },
   "runArgs": [
-    "--device=/dev/bus/usb:/dev/bus/usb",
-    "--privileged"
+    "--privileged",
+    "-v",
+    "/dev/bus/usb:/dev/bus/usb"
   ],
   "customizations": {
     "vscode": {

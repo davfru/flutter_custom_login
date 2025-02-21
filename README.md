@@ -28,7 +28,45 @@ design credits: https://dribbble.com/shots/25519212-App-UI
 
 ### run the app
 
-after having ...
+Run via adb debugging (wifi)
+
+- Android: Go under "Wireless debugging" > "Pair device with pairing code"
+
+Inside the container
+
+```sh
+adb pair [ip]:[port]
+```
+
+ip and port are given by the device on which wifi "Debug Wi-Fi" is enabled
+
+- CLI: Enter the pairing code
+- Android: Close the pairing screen & look at the "IP address and port
+
+```sh
+adb connect [ip]:[port]
+adb devices
+flutter run -d 192.168.0.102:40945
+```
+
+to run in debug mode add the following config inside .vscode/launch.json
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter on Device",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug",
+      "deviceId": "192.168.0.102:40945"
+    }
+  ]
+}
+```
+
+then go to "Run and Debug" menu in VSCode ad run using the above config
 
 # Google Cloud and Cognito IDP integration
 
