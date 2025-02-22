@@ -1,11 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  Flutter appointement backend
+Description: 'Flutter appointement backend'
 Globals:
   Function:
     Timeout: 30
-
 Parameters:
   ProjectName:
     Type: String
@@ -18,9 +16,13 @@ Parameters:
   UserPoolName:
     Type: String
     Description: User pool name
-
+  GoogleClientId:
+    Type: String
+    Description: Google OAuth Client ID
+  GoogleClientSecret:
+    Type: String
+    Description: Google OAuth Client Secret
 Resources:
-
   Cognito:
     Type: AWS::Serverless::Application
     Properties:
@@ -28,4 +30,6 @@ Resources:
       Parameters:
         UserPoolDomainName: !Ref UserPoolDomainName
         UserPoolName: !Sub "${Env}-${UserPoolName}"
+        GoogleClientId: !Ref GoogleClientId
+        GoogleClientSecret: !Ref GoogleClientSecret
         Env: !Ref Env

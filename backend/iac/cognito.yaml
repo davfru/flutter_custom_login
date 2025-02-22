@@ -1,7 +1,6 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Cognito
-
+Description: Cognito with Google Integration
 Parameters:
   Env:
     Type: String
@@ -12,20 +11,24 @@ Parameters:
   UserPoolName:
     Type: String
     Description: User pool name
-
+  GoogleClientId:
+    Type: String
+    Description: Google OAuth Client ID
+  GoogleClientSecret:
+    Type: String
+    Description: Google OAuth Client Secret
 Resources:
-
   UserPool:
     Type: AWS::Cognito::UserPool
     Properties:
       AccountRecoverySetting:
         RecoveryMechanisms:
-          - Name: admin_only
-            Priority: 1
+        - Name: admin_only
+          Priority: 1
       AdminCreateUserConfig:
         AllowAdminCreateUserOnly: true
       AutoVerifiedAttributes:
-        - email
+      - email
       Policies:
         PasswordPolicy:
           MinimumLength: 8
@@ -35,30 +38,66 @@ Resources:
           RequireUppercase: true
           TemporaryPasswordValidityDays: 7
       UsernameAttributes:
-        - email
+      - email
       UsernameConfiguration:
         CaseSensitive: false
       UserPoolName: !Ref UserPoolName
 
   UserPoolClient:
     Type: AWS::Cognito::UserPoolClient
+    DependsOn:
+    - UserPoolIdentityProviderGoogle
     Properties:
       UserPoolId: !Ref UserPool
       GenerateSecret: false
       RefreshTokenValidity: 365
       IdTokenValidity: 1
-      TokenValidityUnits: 
+      TokenValidityUnits:
         IdToken: days
       ExplicitAuthFlows:
-        - ALLOW_ADMIN_USER_PASSWORD_AUTH
-        - ALLOW_REFRESH_TOKEN_AUTH
- 
+      - ALLOW_ADMIN_USER_PASSWORD_AUTH
+      - ALLOW_REFRESH_TOKEN_AUTH
+      SupportedIdentityProviders:
+      - COGNITO
+      - Google
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows:
+      - implicit
+      AllowedOAuthScopes:
+      - openid
+      - profile
+      - email
+      CallbackURLs:
+      - myapp://loggedIn
+      LogoutURLs:
+      - myapp://logout
+    Metadata:
+      SamResourceId: UserPoolClient
+  UserPoolIdentityProviderGoogle:
+    Type: AWS::Cognito::UserPoolIdentityProvider
+    Properties:
+      ProviderName: Google
+      ProviderType: Google
+      UserPoolId:
+        Ref: UserPool
+      AttributeMapping:
+        email: email
+        given_name: given_name
+        family_name: family_name
+        picture: picture
+      ProviderDetails:
+        client_id:
+          Ref: GoogleClientId
+        client_secret:
+          Ref: GoogleClientSecret
+        authorize_scopes: openid email profile
+
   UserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
       Domain: !Ref UserPoolDomainName
       UserPoolId: !Ref UserPool
-  
+
 Outputs:
   UserPoolId:
     Description: User pool id
