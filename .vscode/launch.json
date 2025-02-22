@@ -2,11 +2,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Flutter on Device",
+      "name": "moto g34",
       "type": "dart",
       "request": "launch",
       "flutterMode": "debug",
       "deviceId": "192.168.0.102:40945"
+    },
+    {
+      "name": "moto g 5g plus",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug",
+      "deviceId": "192.168.0.100:40017"
     }
   ]
 }
