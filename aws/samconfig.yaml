@@ -18,8 +18,8 @@ test:
         - ProjectName="flutter-google-login"
         - UserPoolDomainName="flutter-google-login"
         - UserPoolName="flutter-google-login"
-        - GoogleClientId="264295797329-ef2td1nkqcken25noq6v9fbr48ddeg4p.apps.googleusercontent.com" # TODO put in secret manager / parameter store
-        - GoogleClientSecret="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" # TODO put in secret manager
+        - GoogleClientId="test" # TODO put in secret manager / parameter store
+        - GoogleClientSecret="test" # TODO put in secret manager
       tags:
         - 'Environment=test'
         - 'ProjectName=flutter-google-login'

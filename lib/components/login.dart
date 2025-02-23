@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/app_colors.dart';
+import 'package:login/service/google_auth_service.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -108,7 +109,9 @@ class Login extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () async {
+                GoogleAuthService().signInWithGoogle();
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -122,7 +125,7 @@ class Login extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    "Continue with Phone",
+                    "Continue with Google",
                     style: TextStyle(
                       fontSize: 16,
                       color: AppColors.black,

@@ -11,7 +11,7 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
-backend/.aws-sam/
+aws/.aws-sam/
 
 # IntelliJ related
 *.iml
@@ -44,3 +44,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+android/app/my-release-key.jks

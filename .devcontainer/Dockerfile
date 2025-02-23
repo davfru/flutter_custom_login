@@ -1,7 +1,13 @@
 FROM ghcr.io/cirruslabs/flutter:3.27.1
 
-# Install adb for device communication
-RUN apt-get update && apt-get install -y adb wget unzip && apt-get clean
+# Install adb
+RUN apt-get update && apt-get install -y adb wget unzip curl && apt-get clean
+
+# Install Firebase CLI
+RUN curl -sL https://firebase.tools | bash
+
+# Install FlutterFire CLI
+RUN dart pub global activate flutterfire_cli
 
 # Set up Android NDK
 ENV ANDROID_NDK_VERSION=22
@@ -17,3 +23,7 @@ RUN mkdir -p $ANDROID_HOME/ndk && \
 
 # Ensure the NDK is in the PATH
 ENV PATH="$ANDROID_NDK_HOME:$PATH"
+
+# For FlutterFire CLI
+ENV PATH="/root/.pub-cache/bin:$PATH"
+
